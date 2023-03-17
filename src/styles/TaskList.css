@@ -1,0 +1,9 @@
+.tasks_container {
+  width: 60vw;
+  height: 90vh;
+  margin: 20px;
+  border-radius: 10px;
+  justify-content: space-around;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}

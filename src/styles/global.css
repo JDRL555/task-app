@@ -1,0 +1,66 @@
+#root {
+  height: 100vh;
+  background: linear-gradient(rgb(107, 192, 226), rgb(43, 69, 80));
+}
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.main {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.home {
+  width: 30vw;
+  height: 40vh;
+  margin: auto;
+  align-self: center;
+  text-align: center;
+  background-color: white;
+  border-radius: 10px;
+}
+
+p {
+  width: 60%;
+  margin: auto;
+  font-size: 18px;
+  text-align: justify;
+}
+
+h2 {
+  cursor: pointer;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  margin-top: 15px;
+  background-color: aquamarine;
+  padding: 10px;
+}
+
+button:hover {
+  background-color: white;
+  transition: 0.5s;
+}
+
+::-webkit-scrollbar{
+  background-color: rgb(197, 197, 197);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(116, 116, 116);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(219, 219, 219);
+}
