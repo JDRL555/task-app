@@ -51,6 +51,23 @@ button:hover {
   transition: 0.5s;
 }
 
+
+input {
+  border: none;
+  border-radius: 20px;
+  margin: auto;
+  outline: none;
+  width: 95%;
+  padding: 10px;
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+
+input:focus {
+  transition: 0.5s;
+  box-shadow: 0 5px 5px rgb(50, 117, 192);
+}
+
 ::-webkit-scrollbar{
   background-color: rgb(197, 197, 197);
   border-radius: 10px;
