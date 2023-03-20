@@ -44,6 +44,7 @@ button {
   margin-top: 15px;
   background-color: aquamarine;
   padding: 10px;
+  cursor: pointer;
 }
 
 button:hover {
@@ -51,8 +52,7 @@ button:hover {
   transition: 0.5s;
 }
 
-
-input {
+input, textarea {
   border: none;
   border-radius: 20px;
   margin: auto;
@@ -63,7 +63,7 @@ input {
   margin-bottom: 10px;
 }
 
-input:focus {
+input:focus, textarea:focus {
   transition: 0.5s;
   box-shadow: 0 5px 5px rgb(50, 117, 192);
 }

@@ -23,14 +23,35 @@ export function useLocalStorage(itemKey, defaultValue){
     }
   }
 
-  tasksController.saveItem = (newValue) => {    
-    if(item.length){
-      item.push(newValue)
+  tasksController.saveItem = () => {
+    const inputs = document.querySelectorAll(".modal_input")
+    let title = inputs[0].value.toLowerCase()
+
+    if(!inputs[0].value || !inputs[1].value){
+      alert("faltaron campos :/")
+      return
+    }
+    
+    const foundTask = item.some(task => {
+      task.title.toLowerCase() == title
+    })
+
+    if(!foundTask){
+      const newItem = {}
+      const id      = item[item.length-1].id + 1
+      inputs.forEach(input => {
+        newItem[input.name] = input.value
+      })
+      newItem["completed"] = "❌"
+      newItem["id"] = id
+      item.push(newItem)
       const itemStringyfied = JSON.stringify(item)
       localStorage.setItem(itemKey, itemStringyfied)
-    } else {
-      localStorage.setItem(itemKey, newValue)
-    }
+      alert("agregado exitosamente!!")
+      location.reload()
+    }else {
+      alert("ya existe la tarea:/")
+    } 
   }
 
   return [item, tasksController]

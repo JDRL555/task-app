@@ -7,3 +7,16 @@
   display: flex;
   flex-direction: column;
 }
+
+.update, .delete {
+  width: 20%;
+  margin-right: 10px;
+}
+
+.update {
+  background-color: rgb(145, 165, 255);
+}
+
+.delete {
+  background-color: rgb(255, 147, 147);
+}

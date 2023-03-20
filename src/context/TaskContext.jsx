@@ -2,16 +2,13 @@ import {
   createContext, useState 
 }  from 'react'
 import { useLocalStorage }  from './useLocalStorage'
-import { States } from './tasksToShow'
-
+import { States }           from './tasksToShow'
 
 const TaskContext = createContext()
 
 function TaskProvider({children}) {
   let [tasks, tasksController] = useLocalStorage("tasks", [
-    {id: 1, title: "Learn React", description: "I need to learn aaa", completed: "❌"},
-    {id: 1, title: "Do something else", description: "a", completed: "❌"},
-    {id: 1, title: "idk", description: "b", completed: "❌"},
+    {id: 1, title: "Create new Tasks", description: "just try this amazing task app!", completed: "❌"}
   ])
   let [completedTasks, setCompletedTasks] = useState(0)
   let searchedTasks = tasks
@@ -50,6 +47,18 @@ function TaskProvider({children}) {
     search = value
     showTasks()
   }
+
+  const handleModal = () => {
+    const modal_bg    = document.querySelector(".modal_bg")
+    const new_task  = document.querySelector(".new_task")
+    if(!modal_bg.style.display || modal_bg.style.display == "none"){
+      modal_bg.style.display = "flex"
+      new_task.style.display = "flex"
+    } else {
+      modal_bg.style.display = "none"
+      new_task.style.display = "none"
+    }
+  }
   
   return (
     <TaskContext.Provider value={{
@@ -57,7 +66,8 @@ function TaskProvider({children}) {
       search, searchedTasks,
       tasksToShow, setTasksToShow,
       completedTasks, setCompletedTasks, 
-      handleClick, handleChange
+      handleClick, handleChange,
+      handleModal
     }}>
       {children}
     </TaskContext.Provider>
