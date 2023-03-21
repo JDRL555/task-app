@@ -1,11 +1,10 @@
-import Task                         from "./Task"
-import { TaskContext }              from "../context/TaskContext"
-import { useContext, useState, useEffect }    from "react"
+import Task               from "./Task"
+import { TaskContext }    from "../context/TaskContext"
+import { useContext }     from "react"
 import "../styles/TaskContainer.css"
 
 export default function TaskList() {
   const {tasksToShow} = useContext(TaskContext)
-  // useEffect(()=> {setTasksToShow(tasksToShow)}, [tasksToShow])
   return (
     <div className="tasks_list">
       {tasksToShow.map((task, i) => {

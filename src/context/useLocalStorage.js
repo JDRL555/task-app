@@ -1,5 +1,6 @@
 export function useLocalStorage(itemKey, defaultValue){
   let item = localStorage.getItem(itemKey) 
+  const tasksController = {}
   
   if(!item){
     if(defaultValue.length){
@@ -12,10 +13,10 @@ export function useLocalStorage(itemKey, defaultValue){
     item = JSON.parse(item)
   }
 
-  const tasksController = {}
 
   tasksController.updateItem = (item) => {
     if(item.length){
+      console.log(item)
       const itemStringified = JSON.stringify(item)
       localStorage.setItem(itemKey, itemStringified)  
     } else {
