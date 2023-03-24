@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export function States(defaultValue){
+export function TaskToShowState(defaultValue){
   const [tasksToShow, setTasksToShow] = useState(defaultValue)
   return [tasksToShow, setTasksToShow]
 }

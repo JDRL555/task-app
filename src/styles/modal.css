@@ -1,4 +1,4 @@
-.modal_bg {
+.modal_bg_new, .modal_bg_update {
   background-color: rgba(0, 0, 0, 0.507);
   position: fixed;
   top: -10px;
@@ -11,7 +11,7 @@
   display: none;
 }
 
-.new_task {
+.new_task, .update_task {
   background-color: white;
   border-radius: 10px;
   padding: 20px;

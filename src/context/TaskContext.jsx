@@ -1,26 +1,30 @@
 import { createContext, useState }  from 'react'
 import { useLocalStorage }          from './useLocalStorage'
-import { States }                   from './tasksToShow'
+import { TaskToShowState }          from './states/tasksToShowState'
+import { selectedTaskState }        from './states/selectedTaskState'
+import { newValuesState }           from './states/newValuesState'
 
 const TaskContext = createContext()
 
 function TaskProvider({children}) {
-  let [tasks, tasksController] = useLocalStorage("tasks", [
-    {id: 1, title: "Create new Tasks", description: "just try this amazing task app!", completed: "❌"}
-  ])
+  let [tasks, tasksController] = useLocalStorage("tasks", [])
   let completed = []
   
-  tasks.forEach(task => {
-    if(task.completed == "✔️"){
-      completed.push(task)
-    }
-  })
+  if(tasks.length){
+    tasks.forEach(task => {
+      if(task.completed == "✔️"){
+        completed.push(task)
+      }
+    })
+  }
   completed = completed.length
   
   let [completedTasks, setCompletedTasks] = useState(completed)
   let searchedTasks = tasks
   let search        = ""
-  const [tasksToShow, setTasksToShow] = States(tasks)
+  const [tasksToShow, setTasksToShow] = TaskToShowState(tasks)
+  const [selectedTask, setselectedTask] = selectedTaskState(null)
+  const [newValue, setNewValue] = newValuesState(null)
 
   const showTasks = () => {
     if(!search.length >= 1){
@@ -31,6 +35,10 @@ function TaskProvider({children}) {
         const lowerSearch = search.toLowerCase()
         return lowerTask.includes(lowerSearch)
       })
+    }
+
+    if(searchedTasks.length){
+      searchedTasks.forEach((task, i) => task.id = i + 1)
     }
     setTasksToShow(searchedTasks)
   }
@@ -57,7 +65,7 @@ function TaskProvider({children}) {
         tasks.splice(task.id - 1, 1, task)
       }
     })
-    tasksController.updateItem(tasks)
+    tasksController.refreshItem(tasks)
   }
 
   const handleChange = e => {
@@ -66,15 +74,29 @@ function TaskProvider({children}) {
     showTasks()
   }
 
-  const handleModal = () => {
-    const modal_bg    = document.querySelector(".modal_bg")
-    const new_task  = document.querySelector(".new_task")
+  const handleModalNew = () => {
+    const modal_bg    = document.querySelector(".modal_bg_new")
+    const new_task    = document.querySelector(".new_task")
     if(!modal_bg.style.display || modal_bg.style.display == "none"){
       modal_bg.style.display = "flex"
       new_task.style.display = "flex"
     } else {
       modal_bg.style.display = "none"
       new_task.style.display = "none"
+    }
+  }
+
+  const handleModalUpdate = (task) => {
+    const modal_bg        = document.querySelector(".modal_bg_update")
+    const update_task     = document.querySelector(".update_task")
+    setselectedTask(task)
+    setNewValue(task)
+    if(!modal_bg.style.display || modal_bg.style.display == "none"){
+      modal_bg.style.display = "flex"
+      update_task.style.display = "flex"
+    } else {
+      modal_bg.style.display = "none"
+      update_task.style.display = "none"
     }
   }
 
@@ -90,14 +112,25 @@ function TaskProvider({children}) {
       }
     })
   }
+
+  const handleDelete = () => {
+
+  }
+
+  const handleUpdate = () => {
+    
+  }
   
   return (
     <TaskContext.Provider value={{
       tasks, tasksController,
       search, searchedTasks,
       tasksToShow, setTasksToShow,
+      selectedTask, setselectedTask,
+      newValue, setNewValue,
       completedTasks, setCompletedTasks, 
-      handleClick, handleChange, handleCompletedTasks, handleModal
+      handleClick, handleChange, handleCompletedTasks, 
+      handleModalNew, handleModalUpdate
     }}>
       {children}
     </TaskContext.Provider>

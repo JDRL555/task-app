@@ -14,7 +14,7 @@ export function useLocalStorage(itemKey, defaultValue){
   }
 
 
-  tasksController.updateItem = (item) => {
+  tasksController.refreshItem = (item) => {
     if(item.length){
       console.log(item)
       const itemStringified = JSON.stringify(item)
@@ -32,27 +32,67 @@ export function useLocalStorage(itemKey, defaultValue){
       alert("faltaron campos :/")
       return
     }
+    let tasks = localStorage.getItem(itemKey)
     
-    const foundTask = item.some(task => {
+    if(tasks){
+      tasks = JSON.parse(tasks)
+    } else {
+      tasks = []  
+    }
+
+    const foundTask = tasks.some(task => {
       task.title.toLowerCase() == title
     })
 
     if(!foundTask){
-      const newItem = {}
-      const id      = item[item.length-1].id + 1
-      inputs.forEach(input => {
-        newItem[input.name] = input.value
-      })
-      newItem["completed"] = "❌"
-      newItem["id"] = id
-      item.push(newItem)
-      const itemStringyfied = JSON.stringify(item)
-      localStorage.setItem(itemKey, itemStringyfied)
+      let newTask = {}
+      let id = 1
+
+      if(tasks.length){
+        id = tasks[tasks.length-1].id + 1
+      }
+      
+      newTask[inputs[0].name] = inputs[0].value
+      newTask[inputs[1].name] = inputs[1].value
+      newTask["completed"] = "❌"
+      newTask["id"] = id
+      
+      tasks.push(newTask)
+      tasks = JSON.stringify(tasks)
+      localStorage.setItem(itemKey, tasks)
       alert("agregado exitosamente!!")
       location.reload()
     }else {
       alert("ya existe la tarea:/")
     } 
+  }
+
+  tasksController.updateItem = (newValues) => {
+    let tasks = localStorage.getItem(itemKey)
+    tasks = JSON.parse(tasks)
+   
+    const foundTask = tasks.find(task => task.id == newValues.id)
+    if(foundTask){
+      tasks.splice(foundTask.id - 1, 1, newValues)
+    }
+    tasks = JSON.stringify(tasks)
+    localStorage.setItem(itemKey, tasks)
+    alert("Updated successfully!")
+    location.reload()
+  }
+
+  tasksController.deleteItem = (taskToDelete) => {
+    let tasks = localStorage.getItem(itemKey)
+    tasks = JSON.parse(tasks)
+
+    const foundTask = tasks.find(task => task.id == taskToDelete.id)
+    if(foundTask){
+      tasks.splice(foundTask.id - 1, 1)
+    }
+    tasks = JSON.stringify(tasks)
+    localStorage.setItem(itemKey, tasks)
+    alert("deleted successfully!")
+    location.reload()
   }
 
   return [item, tasksController]
