@@ -1,0 +1,22 @@
+.task {
+  width: 90%;
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.update, .delete {
+  width: 20%;
+  margin-right: 10px;
+}
+
+.update {
+  background-color: #91a5ff;
+}
+
+.delete {
+  background-color: #ff9393;
+}
