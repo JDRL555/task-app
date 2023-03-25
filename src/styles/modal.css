@@ -18,7 +18,7 @@
   display: flex;
   flex-direction: column;
   display: none;
-  width: 30%;
+  width: 40%;
 }
 
 .modal_button { 
@@ -30,14 +30,22 @@
   border: 1px solid rgb(50, 117, 192);
 }
 
+.header_modal {
+  display: flex;
+  justify-content: space-between;
+}
+
 span {
-  width: 5%;
-  margin-left: 60%;
-  align-self: flex-end;
+  height: 5%;
+  width: 8%;
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
   background-color: rgb(230, 94, 94);
   color: white;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 100px;
   cursor: pointer;
 }
 

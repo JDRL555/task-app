@@ -1,14 +1,18 @@
-import TaskList       from "./components/TaskList"
-import TaskContainer  from "./components/TaskContainer"
-import {TaskContext}  from "./context/TaskContext"
-import {useContext}   from "react"
-import Modal          from "./Modal"
+import TaskList         from "./components/TaskList"
+import TaskContainer    from "./components/TaskContainer"
+import {TaskContext}    from "./context/TaskContext"
+import {useContext}     from "react"
+import Modal            from "./Modal"
+import {ToastContainer} from "react-toastify"
+import 'react-toastify/dist/ReactToastify.min.css';
 
 import "./styles/global.css"
 import "./styles/modal.css"
+import "./styles/responsive.css"
 
 export default function App() {
   const {tasks, completedTasks, handleChange, handleModalNew} = useContext(TaskContext)
+  
   return (
     <div className="main">
       <div className="home">
@@ -18,11 +22,11 @@ export default function App() {
       </div>
       <TaskContainer>
         <h1 id="completed_tasks">You completed {completedTasks} to {tasks.length} task</h1>
-        <input type="text" placeholder="Search your task!" onChange={handleChange} />
         <TaskList />
       </TaskContainer>
       <Modal type="new_task" />
       <Modal type="update_task" />
+      <ToastContainer />
     </div>
   )
 }

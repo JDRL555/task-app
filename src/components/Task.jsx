@@ -5,9 +5,30 @@ import "../styles/Task.css"
 
 export default function Task({task}) {
   const {
-    handleClick, handleCompletedTasks, tasksToShow, handleModalUpdate, tasksController
+    handleClick, 
+    handleCompletedTasks, 
+    tasksToShow, 
+    handleModalUpdate, 
+    tasksController, 
+    handleAlert,
+    setTasksToShow
   } = useContext(TaskContext)
+  
   useEffect(()=> {handleCompletedTasks(task)}, [tasksToShow])
+
+  const handleDelete = () => {
+    const deleted = tasksController.deleteItem(task)
+    let tasks = localStorage.getItem("tasks")
+    tasks = JSON.parse(tasks)
+    setTasksToShow(tasks)
+
+    if(deleted){
+      handleAlert("Deleted successfully!", "sucess")
+      // setTimeout(()=>location.reload(), 1000)
+    }else{
+      handleAlert("There's a error!", "warning")
+    }
+  }
   return (
     <div id={task.id} className={`task`}>
       <h2 onClick={() => handleClick(task)}>{task.completed}Task {task.id}:{task.title}</h2>
@@ -23,7 +44,7 @@ export default function Task({task}) {
         <button 
           id={`delete${task.id}`} 
           className="delete"
-          onClick={() => tasksController.deleteItem(task)}
+          onClick={handleDelete}
         >
           Delete
         </button>

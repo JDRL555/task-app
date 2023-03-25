@@ -25,12 +25,11 @@ export function useLocalStorage(itemKey, defaultValue){
   }
 
   tasksController.saveItem = () => {
-    const inputs = document.querySelectorAll(".modal_input")
-    let title = inputs[0].value.toLowerCase()
+    const inputs  = document.querySelectorAll(".modal_input")
+    let title     = inputs[0].value.toLowerCase()
 
     if(!inputs[0].value || !inputs[1].value){
-      alert("faltaron campos :/")
-      return
+      return false
     }
     let tasks = localStorage.getItem(itemKey)
     
@@ -40,9 +39,7 @@ export function useLocalStorage(itemKey, defaultValue){
       tasks = []  
     }
 
-    const foundTask = tasks.some(task => {
-      task.title.toLowerCase() == title
-    })
+    const foundTask = tasks.find(task => task.title.toLowerCase() == title)
 
     if(!foundTask){
       let newTask = {}
@@ -56,14 +53,12 @@ export function useLocalStorage(itemKey, defaultValue){
       newTask[inputs[1].name] = inputs[1].value
       newTask["completed"] = "❌"
       newTask["id"] = id
-      
       tasks.push(newTask)
       tasks = JSON.stringify(tasks)
       localStorage.setItem(itemKey, tasks)
-      alert("agregado exitosamente!!")
-      location.reload()
+      return true
     }else {
-      alert("ya existe la tarea:/")
+      return false
     } 
   }
 
@@ -77,8 +72,7 @@ export function useLocalStorage(itemKey, defaultValue){
     }
     tasks = JSON.stringify(tasks)
     localStorage.setItem(itemKey, tasks)
-    alert("Updated successfully!")
-    location.reload()
+    return true
   }
 
   tasksController.deleteItem = (taskToDelete) => {
@@ -91,8 +85,7 @@ export function useLocalStorage(itemKey, defaultValue){
     }
     tasks = JSON.stringify(tasks)
     localStorage.setItem(itemKey, tasks)
-    alert("deleted successfully!")
-    location.reload()
+    return true
   }
 
   return [item, tasksController]

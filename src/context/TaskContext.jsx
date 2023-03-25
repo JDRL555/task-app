@@ -3,6 +3,7 @@ import { useLocalStorage }          from './useLocalStorage'
 import { TaskToShowState }          from './states/tasksToShowState'
 import { selectedTaskState }        from './states/selectedTaskState'
 import { newValuesState }           from './states/newValuesState'
+import {toast}                      from "react-toastify"
 
 const TaskContext = createContext()
 
@@ -10,7 +11,7 @@ function TaskProvider({children}) {
   let [tasks, tasksController] = useLocalStorage("tasks", [])
   let completed = []
   
-  if(tasks.length){
+  if(tasks?.length){
     tasks.forEach(task => {
       if(task.completed == "✔️"){
         completed.push(task)
@@ -47,7 +48,7 @@ function TaskProvider({children}) {
     const elementTask = document.getElementById(`${task.id}`)
     const update_btn  = document.getElementById(`update${task.id}`) 
     const delete_btn  = document.getElementById(`delete${task.id}`) 
-    console.log(update_btn)
+
     if(task.completed == "❌"){
       task.completed = "✔️"
       elementTask.style.backgroundColor = "grey"
@@ -113,24 +114,44 @@ function TaskProvider({children}) {
     })
   }
 
-  const handleDelete = () => {
+  const handleAlert = (message, type) => {
+  type == "sucess"
+  ?
+  toast.success(message, {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: false,
+    progress: undefined,
+    theme: "dark",
+  })
+  :
+  toast.warn(message, {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: false,
+    progress: undefined,
+    theme: "dark",
+  })
 
-  }
-
-  const handleUpdate = () => {
-    
-  }
+}
   
   return (
     <TaskContext.Provider value={{
       tasks, tasksController,
+      showTasks,
       search, searchedTasks,
       tasksToShow, setTasksToShow,
       selectedTask, setselectedTask,
       newValue, setNewValue,
       completedTasks, setCompletedTasks, 
       handleClick, handleChange, handleCompletedTasks, 
-      handleModalNew, handleModalUpdate
+      handleModalNew, handleModalUpdate, handleAlert
     }}>
       {children}
     </TaskContext.Provider>
