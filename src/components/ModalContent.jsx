@@ -5,46 +5,16 @@ export default function ModalContent({type}) {
 
   const {
     handleModalNew, 
-    handleModalUpdate, 
-    tasksController, 
+    handleModalUpdate,  
     selectedTask, 
     newValue, 
     setNewValue, 
-    handleAlert, 
-    setTasksToShow
+    handleUpdate, handleCreate
     
   } = useContext(TaskContext)
 
   const handleChange = e => {
     setNewValue({...newValue, [e.target.name]: e.target.value})
-  }
-
-  const handleUpdate = () => {
-    const updated = tasksController.updateItem(newValue)
-    let tasks = localStorage.getItem("tasks")
-    tasks = JSON.parse(tasks)
-    setTasksToShow(tasks)
-
-    if(updated){
-      handleAlert("Updated successfully!", "sucess")
-      // setTimeout(()=>location.reload(), 1000)
-    }else{
-      handleAlert("There's a error!", "warning")
-    }
-  }
-
-  const handleCreate = () => {
-    const created = tasksController.saveItem()
-    let tasks = localStorage.getItem("tasks")
-    tasks = JSON.parse(tasks)
-    setTasksToShow(tasks)
-
-    if(created){
-      handleAlert("Created successfully!", "sucess")
-      // setTimeout(()=>location.reload(), 1000)
-    }else{
-      handleAlert("Either the task already exists or empty fields!", "warn")
-    }
   }
 
   return (
@@ -57,7 +27,7 @@ export default function ModalContent({type}) {
       {
         selectedTask 
         ? 
-        <>
+        <form className="update_task_form">
           <h3>Title: </h3>
           <input 
             className="modal_input"   
@@ -74,9 +44,9 @@ export default function ModalContent({type}) {
             value={newValue.description}
             onChange={handleChange}
           />
-        </>
+        </form>
         :
-        <>
+        <form className="new_task_form">
           <h3>Title: </h3>
           <input 
             className="modal_input"   
@@ -89,7 +59,7 @@ export default function ModalContent({type}) {
             name="description" 
             rows={5}
           />
-        </>
+        </form>
       }
       <button 
         className="modal_button" 

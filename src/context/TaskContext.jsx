@@ -76,26 +76,31 @@ function TaskProvider({children}) {
   }
 
   const handleModalNew = () => {
-    const modal_bg    = document.querySelector(".modal_bg_new")
-    const new_task    = document.querySelector(".new_task")
+    const modal_bg      = document.querySelector(".modal_bg_new")
+    const new_task      = document.querySelector(".new_task")
+    const new_task_form = document.querySelector(".new_task_form")
     if(!modal_bg.style.display || modal_bg.style.display == "none"){
       modal_bg.style.display = "flex"
       new_task.style.display = "flex"
     } else {
+      new_task_form.reset()
       modal_bg.style.display = "none"
       new_task.style.display = "none"
     }
   }
 
   const handleModalUpdate = (task) => {
-    const modal_bg        = document.querySelector(".modal_bg_update")
-    const update_task     = document.querySelector(".update_task")
+    const modal_bg          = document.querySelector(".modal_bg_update")
+    const update_task       = document.querySelector(".update_task")
+    const update_task_form  = document.querySelector(".update_task_form")
+
     setselectedTask(task)
     setNewValue(task)
     if(!modal_bg.style.display || modal_bg.style.display == "none"){
       modal_bg.style.display = "flex"
       update_task.style.display = "flex"
     } else {
+      update_task_form.reset()
       modal_bg.style.display = "none"
       update_task.style.display = "none"
     }
@@ -140,6 +145,32 @@ function TaskProvider({children}) {
   })
 
 }
+
+const handleUpdate = () => {
+  const updated = tasksController.updateItem(newValue)
+  let tasks = localStorage.getItem("tasks")
+  tasks = JSON.parse(tasks)
+  setTasksToShow(tasks)
+
+  if(updated){
+    handleAlert("Updated successfully!", "sucess")
+  }else{
+    handleAlert("There's a error!", "warning")
+  }
+}
+
+const handleCreate = () => {
+  const created = tasksController.saveItem()
+  let tasks = localStorage.getItem("tasks")
+  tasks = JSON.parse(tasks)
+  setTasksToShow(tasks)
+
+  if(created){
+    handleAlert("Created successfully!", "sucess")
+  }else{
+    handleAlert("Either the task already exists or empty fields!", "warn")
+  }
+}
   
   return (
     <TaskContext.Provider value={{
@@ -151,7 +182,8 @@ function TaskProvider({children}) {
       newValue, setNewValue,
       completedTasks, setCompletedTasks, 
       handleClick, handleChange, handleCompletedTasks, 
-      handleModalNew, handleModalUpdate, handleAlert
+      handleModalNew, handleModalUpdate, handleAlert,
+      handleUpdate, handleCreate
     }}>
       {children}
     </TaskContext.Provider>
