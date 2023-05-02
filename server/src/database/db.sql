@@ -1,0 +1,45 @@
+DROP DATABASE IF EXISTS task_app_db;
+
+CREATE DATABASE task_app_db;
+
+USE task_app_db;
+
+CREATE TABLE users(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(30) NOT NULL,
+    lastName VARCHAR(30) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    rol SET ("Standar", "Admin") DEFAULT "Standar"
+);
+
+CREATE TABLE tasks(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_user INT UNSIGNED NOT NULL,
+    title VARCHAR(30) NOT NULL,
+    description VARCHAR(150) NOT NULL,
+    completed BOOLEAN DEFAULT false,
+    created_at DATETIME DEFAULT CURRENT_DATE,
+    updated_at DATETIME DEFAULT CURRENT_DATE,
+    FOREIGN KEY(id_user) REFERENCES users(id)
+);
+
+CREATE TABLE completed_tasks(
+	id_task INT UNSIGNED NOT NULL,
+    id_user INT UNSIGNED NOT NULL,
+    FOREIGN KEY (id_task) REFERENCES tasks(id),
+    FOREIGN KEY (id_user) REFERENCES users(id),
+    completed_at DATETIME DEFAULT CURRENT_DATE
+);
+
+CREATE TABLE sub_tasks(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_task INT UNSIGNED NOT NULL,
+    title VARCHAR(30) NOT NULL,
+    description VARCHAR(150) NOT NULL,
+    completed BOOLEAN DEFAULT false,
+    created_at DATETIME DEFAULT CURRENT_DATE,
+    updated_at DATETIME DEFAULT CURRENT_DATE,
+    FOREIGN KEY(id_task) REFERENCES tasks(id)
+);
